@@ -16,10 +16,5 @@ func main() {
 		log.Fatal(err)
 	}
 
-	defer func(port *serial.Port) {
-		err := port.Close()
-		if err != nil {
-			log.Fatal(err)
-		}
-	}(port)
+	defer port.Close()
 }
