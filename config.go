@@ -6,6 +6,11 @@ import (
 	"os/exec"
 )
 
+type Port struct {
+	Name string `yaml:"name"`
+	Baud int    `yaml:"baud"`
+}
+
 type Command struct {
 	Name   string `yaml:"name"`
 	Key    string `yaml:"key"`
@@ -14,9 +19,10 @@ type Command struct {
 
 type Config struct {
 	Commands []Command `yaml:"commands"`
+	Port     Port      `yaml:"port"`
 }
 
-func LoadCommands() (*Config, error) {
+func GetConfig() (*Config, error) {
 	file, err := os.Open("config.yaml")
 	if err != nil {
 		return nil, err
