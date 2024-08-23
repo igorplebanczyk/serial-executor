@@ -31,7 +31,8 @@ My personal use case is to have an Arduino board with a 4x4 keypad which allows 
     * `Key` is the expected input from the serial port
     * `Script` is the command to be executed
     <br><br>
-4. Compile with `go build`
+4. Compile with `go build -ldflags="-H windowsgui"` to hide the console window
+    <br><br>
 5. Run the executable and optionally add it to the startup folder to have it run on startup
 
 **Note: Make sure that the device/program that writes to the serial input is ran first, otherwise "Access Denied" error might appear**
