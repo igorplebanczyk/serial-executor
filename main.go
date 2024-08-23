@@ -20,11 +20,7 @@ func main() {
 		log.Fatalf("Error opening serial port: %v", err)
 	}
 
-	defer func() {
-		if err := port.Close(); err != nil {
-			log.Printf("Error closing serial port: %v", err)
-		}
-	}()
+	defer port.Close()
 
 	// Load commands from YAML file
 	commands, err := LoadCommands()

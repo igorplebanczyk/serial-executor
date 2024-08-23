@@ -8,6 +8,7 @@ import (
 
 type Command struct {
 	Name   string `yaml:"name"`
+	Key    string `yaml:"key"`
 	Script string `yaml:"script"`
 }
 
@@ -32,9 +33,9 @@ func LoadCommands() (*Config, error) {
 	return &config, nil
 }
 
-func (cfg *Config) GetCommand(name string) *Command {
+func (cfg *Config) GetCommand(key string) *Command {
 	for _, cmd := range cfg.Commands {
-		if cmd.Name == name {
+		if cmd.Key == key {
 			return &cmd
 		}
 	}
