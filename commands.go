@@ -7,8 +7,8 @@ import (
 )
 
 type Command struct {
-	Name   string
-	Script string
+	Name   string `yaml:"name"`
+	Script string `yaml:"script"`
 }
 
 type Config struct {
@@ -24,7 +24,7 @@ func LoadCommands() (*Config, error) {
 
 	decoder := yaml.NewDecoder(file)
 	config := Config{}
-	err = decoder.Decode(config)
+	err = decoder.Decode(&config)
 	if err != nil {
 		return nil, err
 	}
