@@ -6,8 +6,6 @@ My personal use case is to have an Arduino board with a 4x4 keypad which allows 
 
 ## Installation and usage
 
-**Requires [Go](https://go.dev/doc/install) to be installed**
-
 1. Clone this repo
     <br><br>
 2. Define the port name and baud rate in a *config.yaml* file in the root directory:
@@ -35,5 +33,14 @@ My personal use case is to have an Arduino board with a 4x4 keypad which allows 
     <br><br>
 5. Run the executable and optionally add it to the startup folder to have it run on startup
 
-**Note: Make sure that the device/program that writes to the serial input is ran first, otherwise "Access Denied" error might appear**
+### Important notes
+
+* Requires [Go](https://go.dev/doc/install) version 1.22+ to be installed
+* Designed specifically for Windows, might work on other operating systems with slight modifications
+* Since it is designed to run in the background, when the program encounters a fatal error, it will attempt to restart itself every 5 seconds
+* Make sure that the device/program that writes to the serial input is ran first, otherwise "Access Denied" error might appear**
+
+## TODO
+* Add better logging and error handling
+* Add flags to switch the behavior of the program when encountering an error
 

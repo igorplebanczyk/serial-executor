@@ -2,15 +2,27 @@ package main
 
 import (
 	"bufio"
-	"github.com/tarm/serial"
 	"log"
 	"strings"
+	"time"
+
+	"github.com/tarm/serial"
 )
 
 func main() {
+	for {
+		err := runProgram()
+		if err != nil {
+			log.Printf("Program encountered an error: %v. Restarting...", err)
+			time.Sleep(5 * time.Second) // Add a delay before restarting
+		}
+	}
+}
+
+func runProgram() error {
 	config, err := GetConfig()
 	if err != nil {
-		log.Fatalf("Error getting config data: %v", err)
+		return err
 	}
 
 	serialPortConfig := &serial.Config{
@@ -20,9 +32,8 @@ func main() {
 
 	port, err := serial.OpenPort(serialPortConfig)
 	if err != nil {
-		log.Fatalf("Error opening serial port: %v", err)
+		return err
 	}
-
 	defer port.Close()
 
 	reader := bufio.NewReader(port)
@@ -30,8 +41,7 @@ func main() {
 	for {
 		line, err := reader.ReadString('\n')
 		if err != nil {
-			log.Printf("Could not read line: %v", err)
-			continue
+			return err
 		}
 
 		line = strings.TrimSpace(line)
