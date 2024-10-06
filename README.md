@@ -1,4 +1,4 @@
-# Serial Input - CMD Interface
+# Serial Executor
 
 Allows for automatic execution of Windows CMD commands based on serial input.
 
