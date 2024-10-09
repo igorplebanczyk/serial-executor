@@ -1,13 +1,19 @@
 # Serial Executor
 
-Allows for automatic execution of Windows CMD commands based on serial input.
+An interface between a serial port and Windows commands. It listens for input from a serial port and executes a command based on the input.
 
-My personal use case is to have an Arduino board with a 4x4 keypad which allows me to change [SignalRGB](https://signalrgb.com/) effects on my PC with the press of a button.
+My personal use case is to have an Arduino board with a 4x4 keypad which allows me to change [SignalRGB](https://signalrgb.com/) effects on my PC with a press of a button.
+
+## Features
+
+* **Custom commands**: Define any command to be executed on any input from the serial port
+* **Simple configuration**: Define the port name, baud rate, and commands in a single *config.yaml* file
+* **Error handling**: If the program encounters a fatal error, it will attempt to restart itself every 5 seconds. This is important for smooth background operation.
+* **Silent operation**: Compile with `go build -ldflags="-H windowsgui"` to hide the console window
 
 ## Installation and usage
 
 1. Clone this repo
-    <br><br>
 2. Define the port name and baud rate in a *config.yaml* file in the root directory:
     ```yaml
     port:
@@ -33,14 +39,11 @@ My personal use case is to have an Arduino board with a 4x4 keypad which allows 
     <br><br>
 5. Run the executable and optionally add it to the startup folder to have it run on startup
 
-### Important notes
+## Notes
 
-* Requires [Go](https://go.dev/doc/install) version 1.22+ to be installed
-* Designed specifically for Windows, might work on other operating systems with slight modifications
+* Requires [Go](https://go.dev/doc/install) version `1.22` or higher to be installed
+* Windows only
 * Since it is designed to run in the background, when the program encounters a fatal error, it will attempt to restart itself every 5 seconds
-* Make sure that the device/program that writes to the serial input is ran first, otherwise "Access Denied" error might appear**
-
-## TODO
-* Add better logging and error handling
-* Add flags to switch the behavior of the program when encountering an error
+* Make sure that the device/program that writes to the serial input is ran first, otherwise an `Access Denied` error might appear
+* It was designed to solve for a very specific use case of mine, but it is designed to be universal
 
