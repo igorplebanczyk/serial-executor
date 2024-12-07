@@ -2,19 +2,22 @@ package main
 
 import (
 	"bufio"
+	"fmt"
+	"github.com/tarm/serial"
 	"log"
 	"strings"
 	"time"
-
-	"github.com/tarm/serial"
 )
 
 func main() {
-	for {
+	var restartCount int
+
+	for restartCount < 5 {
 		err := runProgram()
 		if err != nil {
+			restartCount++
 			log.Printf("Program encountered an error: %v. Restarting...", err)
-			time.Sleep(5 * time.Second) // Add a delay before restarting
+			time.Sleep(5 * time.Second)
 		}
 	}
 }
@@ -26,13 +29,17 @@ func runProgram() error {
 	}
 
 	serialPortConfig := &serial.Config{
-		Name: config.Port.Name,
-		Baud: config.Port.Baud,
+		Name:        config.Port.Name,
+		Baud:        config.Port.Baud,
+		Size:        8,
+		Parity:      serial.ParityNone,
+		StopBits:    serial.Stop1,
+		ReadTimeout: time.Second,
 	}
 
 	port, err := serial.OpenPort(serialPortConfig)
 	if err != nil {
-		return err
+		return fmt.Errorf("error opening serial port: %v", err)
 	}
 	defer port.Close()
 
@@ -41,20 +48,21 @@ func runProgram() error {
 	for {
 		line, err := reader.ReadString('\n')
 		if err != nil {
-			return err
+			return fmt.Errorf("error reading from serial port: %v", err)
 		}
 
+		line = line[:len(line)-1]
 		line = strings.TrimSpace(line)
 
 		cmd := config.GetCommand(line)
 		if cmd == nil {
-			log.Printf("Command not found: %s", line)
+			log.Printf("command not found: %s", line)
 			continue
 		}
 
 		err = cmd.Run()
 		if err != nil {
-			log.Printf("Could not run command: %v", err)
+			log.Printf("error running command: %v", err)
 		}
 	}
 }

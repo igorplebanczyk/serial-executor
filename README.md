@@ -8,7 +8,7 @@ My personal use case is to have an Arduino board with a 4x4 keypad which allows 
 
 * **Custom commands**: Define any command to be executed on any input from the serial port
 * **Simple configuration**: Define the port name, baud rate, and commands in a single *config.yaml* file
-* **Error handling**: If the program encounters a fatal error, it will attempt to restart itself every 5 seconds. This is important for smooth background operation.
+* **Error handling**: If the program encounters a fatal error, it will attempt to restart itself every 5 seconds up to 5 times. This is important for smooth background operation.
 * **Silent operation**: Compile with `go build -ldflags="-H windowsgui"` to hide the console window
 
 ## Installation and usage
